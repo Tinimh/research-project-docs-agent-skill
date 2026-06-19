@@ -1,0 +1,109 @@
+# 常用命令
+
+默认使用 `{{DEFAULT_SHELL}}`。本文只保存长期可复用、稳定或当前主线命令；一次性批处理命令放到对应 `experiments/` 或 `docs/<topic>/`。
+
+## 0. 使用约定
+
+路径：
+
+```text
+<PROJECT_ROOT> = 当前仓库根目录
+<CODE_ROOT>    = <PROJECT_ROOT>/{{CODE_ROOT}}
+<DATA_DIR>     = <PROJECT_ROOT>/{{DATA_DIR}}
+<OUTPUT_DIR>   = <PROJECT_ROOT>/{{OUTPUT_DIR}}
+<LOG_DIR>      = <PROJECT_ROOT>/{{LOG_DIR}}
+```
+
+状态标签：
+
+- `current`：当前主线或近期仍会复用。
+- `stable`：长期有效且风险较低。
+- `historical`：仅历史复现。
+- `one-off`：一次性任务，不应长期堆在本文。
+- `待确认`：环境或命令尚未验证。
+
+## 1. 环境检查
+
+状态：`stable`
+
+```powershell
+cd <PROJECT_ROOT>
+git status --short --branch
+git rev-parse --show-toplevel
+python --version
+```
+
+环境创建 / 安装命令：`待确认`。
+
+不要根据文件名猜测 CUDA、Python、R、PyTorch 或系统依赖；先检查环境文件和项目说明。
+
+## 2. Baseline / 当前主线运行命令
+
+状态：`待确认`
+
+用途：建立正式 baseline 或运行当前主线。
+
+```powershell
+cd <PROJECT_ROOT>
+# 待确认
+```
+
+运行前记录：dataset/split、checkpoint、config、seed、system name、输出目录和日志目录。
+
+## 3. 正式评估命令
+
+状态：`待确认`
+
+```powershell
+cd <PROJECT_ROOT>
+# 待确认
+```
+
+正式评估输出应写入新目录，不覆盖历史结果。评价指标：{{PRIMARY_METRICS}}。
+
+## 4. 最小 smoke test
+
+状态：`待确认`
+
+```powershell
+cd <PROJECT_ROOT>
+# 目标：小样本、短运行、可快速失败
+```
+
+## 5. 常用查询命令
+
+状态：`stable`
+
+```powershell
+rg -n "待确认|TODO|FIXME" AGENTS.md docs {{CODE_ROOT}}
+Get-ChildItem {{OUTPUT_DIR}} -Recurse -File |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 30 FullName, LastWriteTime, Length
+Get-ChildItem {{LOG_DIR}} -Recurse -File |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 30 FullName, LastWriteTime, Length
+```
+
+## 6. 文档完整性检查
+
+```powershell
+rg -n "\{\{[A-Z0-9_]+\}\}" AGENTS.md docs
+git diff -- AGENTS.md docs
+```
+
+## 7. Git / worktree 安全命令
+
+状态：`stable`
+
+```powershell
+git status --short --branch
+git branch --show-current
+git worktree list
+git diff --stat
+```
+
+不要把 `git reset --hard`、强制 checkout 或历史重写写成常用命令。
+
+## 8. 历史任务命令索引
+
+- 暂无。新增长批处理或一次性审计时，在专题目录保存命令并从这里链接。

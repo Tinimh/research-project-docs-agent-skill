@@ -1,0 +1,80 @@
+# AI coding agents 默认读写边界。
+# 这是项目协议，不是系统级沙箱。超出 writable 范围前必须说明并获得确认。
+
+scope_version: 1
+last_updated: {{DATE}}
+project_type: {{PROJECT_TYPE}}
+
+principles:
+  - 保护数据集、官方 ground truth、历史评估输出、checkpoint 和论文源文件。
+  - 优先新增实验记录和证据，不覆盖旧证据。
+  - 根目录 docs 只沉淀长期共识；详细产物放到 experiments 或专题目录。
+  - 不确定的路径、命令和结论必须标记为 "待确认"。
+
+default_writable:
+  documentation:
+    - AGENTS.md
+    - docs/**/*.md
+    - docs/**/*.yml
+    - docs/**/*.yaml
+  experiment_notes:
+    - experiments/**
+  project_code:
+    - {{CODE_ROOT}}/**
+
+default_readonly:
+  evidence_and_outputs:
+    - {{OUTPUT_DIR}}/**
+    - {{LOG_DIR}}/**
+  datasets:
+    - {{DATA_DIR}}/**
+  literature:
+    - literature/**
+    - references/**
+    - "**/*.pdf"
+
+default_forbidden_without_explicit_user_confirmation:
+  git_and_ide:
+    - .git/**
+    - .idea/**
+    - .vscode/**
+    - .agents/**
+  model_and_binary_artifacts:
+    - "**/*.pt"
+    - "**/*.pth"
+    - "**/*.ckpt"
+    - "**/*.onnx"
+    - "**/*.pkl"
+    - "**/*.pickle"
+    - "**/*.npy"
+    - "**/*.npz"
+  destructive_or_bulk_actions:
+    - "Deleting directories recursively"
+    - "Overwriting existing evaluation reports"
+    - "Changing dataset files or official ground truth"
+    - "Moving or reformatting large legacy trees"
+    - "Rewriting git history"
+
+branch_workflow:
+  default_rule: "较大的研究方向使用独立 git 分支或 worktree。"
+  main_branch_role:
+    - 长期共识文档。
+    - 稳定的 current / best / baseline 摘要。
+    - 已合并实验的最终结论。
+  experiment_branch_role:
+    - 方向专属代码改动。
+    - 临时诊断和探索记录。
+    - 新实验目录和运行产物。
+  before_merging_back:
+    - 更新 docs/RESEARCH_LOG.md。
+    - 更新 docs/HANDOFF.md。
+    - 把失败或高风险路线补充到 docs/WRONG_TURNS.md。
+    - 新增长期文件或脚本时更新 docs/FILE_MAP.md。
+
+task_override:
+  description: "窄任务可以在聊天或实验 README 中声明更小的任务级 scope。"
+  required_fields:
+    - 可写路径
+    - 只读路径
+    - 禁止路径或动作
+    - 预期输出

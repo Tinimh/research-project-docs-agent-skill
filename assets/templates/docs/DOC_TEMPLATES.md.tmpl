@@ -1,0 +1,196 @@
+# 根级文档模板
+
+本文件提供可复制片段。`AGENTS.md` 保存规则；具体记录从这里复制并按项目实际指标调整。路径默认相对 `<PROJECT_ROOT>`，不确定内容标记为 `待确认`。
+
+## `docs/HANDOFF.md` 状态摘要
+
+```md
+## 当前权威状态
+
+- 当前技术主线：
+- 当前 best / baseline：
+- 当前瓶颈：
+- 当前优先方向：
+
+## 最近完成
+
+- YYYY-MM-DD：完成事项；输出：`path/to/output`。
+
+## 当前未解决问题
+
+- 问题：
+- 已有证据：
+- 缺少证据：
+
+## 下一步建议
+
+1. 最小可验证动作：
+
+## 风险与边界
+
+- 不要：
+- 需要用户确认：
+```
+
+## `docs/RESEARCH_LOG.md` 实验条目
+
+````md
+## YYYY-MM-DD - 实验名称
+
+### 目标
+
+要验证的可证伪问题。
+
+### 设置
+
+- dataset / split / sample scope：
+- model / checkpoint：
+- baseline / control：
+- environment：
+- config：
+- random seed：
+- key params：
+
+### 命令
+
+```powershell
+cd <PROJECT_ROOT>
+...
+```
+
+未复核命令写：`待确认`。
+
+### 输出
+
+```text
+experiments/YYYY-MM-DD-short-name/
+{{OUTPUT_DIR}}/...
+{{LOG_DIR}}/...
+```
+
+### 结果
+
+| system / method | dataset / split | primary metric | secondary metrics | runtime | notes |
+| --- | --- | ---: | --- | ---: | --- |
+
+### 结论
+
+- 假设是否被支持：
+- 证据强度：high / medium / low / 待确认
+- 局限：
+
+### 决策
+
+- 保留 / 归档 / 重跑 / 停止：
+
+### 下一步
+
+- ...
+````
+
+## `docs/COMMANDS.md` 命令条目
+
+````md
+## 命令名称
+
+状态：current / stable / historical / one-off / 待确认  
+用途：  
+工作目录：`<PROJECT_ROOT>`  
+输入：  
+输出：  
+风险：
+
+```powershell
+...
+```
+````
+
+## `docs/FILE_MAP.md` 索引表
+
+```md
+| 路径 | 类型 | 作用 | 状态 | 可信度 | 备注 |
+| --- | --- | --- | --- | --- | --- |
+| `path/to/item` | code / config / output / docs | ... | current | high | ... |
+```
+
+状态：`current / stable / historical / generated / archive / temporary / deprecated / 待确认`
+
+可信度：`high / medium / low / 待确认`
+
+## `docs/WRONG_TURNS.md` 负结果条目
+
+```md
+## 方向名称
+
+### 状态
+
+负结果 / 证据不足 / 实现失败 / report-only / 不推荐主线 / 已归档  
+证据强度：high / medium / low / 待确认
+
+### 为什么尝试
+
+### 发生了什么
+
+### 为什么停止
+
+### 证据
+
+- `path/to/evidence`
+
+### 什么时候可以重新考虑
+
+只有当 ...
+
+### 推荐替代方向
+
+- ...
+```
+
+## 实验目录模板
+
+```text
+experiments/YYYY-MM-DD-short-name/
+  README.md      # 目标、设置、结果、结论、决策
+  command.txt    # 实际执行命令
+  output.txt     # 精简控制台输出或指向完整日志的索引
+  config.yaml    # 固化关键参数；敏感信息除外
+  notes.md       # 失败样本、异常和后续想法
+```
+
+`README.md` 最小内容：
+
+```md
+# 实验名称
+
+## Hypothesis
+
+## Inputs
+
+## Reproduction
+
+## Outputs
+
+## Metrics
+
+## Failure cases
+
+## Decision
+
+## Evidence boundary
+```
+
+## 专题目录模板
+
+用于训练谱系、claim-evidence audit、文献审计、长批处理或历史恢复：
+
+```text
+docs/topic_name/
+  README.md
+  HANDOFF.md        # 仅在专题长期并行时需要
+  RESEARCH_LOG.md   # 仅在专题有多次关键实验时需要
+  COMMANDS.md       # 仅在专题有可复用命令时需要
+  FILE_MAP.md       # 仅在专题文件较多时需要
+  WRONG_TURNS.md    # 仅在专题有独立负结果链时需要
+```
+
+不要机械创建全部文件；只创建实际需要的入口。根级文档保留摘要和链接，不重复粘贴专题长表。

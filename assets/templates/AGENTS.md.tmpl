@@ -1,0 +1,163 @@
+# AGENTS.md
+
+## 语言规则
+
+- 与用户沟通使用{{COMMUNICATION_LANGUAGE}}。
+- 代码、命令、路径、配置名、system name 和指标名保持原文。
+- 不确定的信息必须标记为 `待确认`，不要编造命令、实验结果或结论。
+
+## 项目性质
+
+- 项目：`{{PROJECT_NAME}}`
+- 类型：`{{PROJECT_TYPE}}`
+- 研究目标：{{RESEARCH_GOAL}}
+- 主要评价指标：{{PRIMARY_METRICS}}
+
+## 新窗口必读顺序
+
+开始工作时依次阅读：
+
+1. `docs/SCOPE.yml`
+2. `docs/HANDOFF.md`
+3. `docs/RESEARCH_LOG.md`
+4. `docs/COMMANDS.md`
+5. `docs/FILE_MAP.md`
+6. `docs/WRONG_TURNS.md`
+
+写作或整理根级文档时，再读 `docs/DOC_TEMPLATES.md`。仅按当前任务读取必要的专题文档，不要默认遍历全部历史资料。
+
+## 启动前检查
+
+任何编辑、实验、评估或文档整理前，先运行并向用户概述：
+
+```powershell
+git status --short --branch
+git rev-parse --show-toplevel
+```
+
+如果不是 Git 仓库，明确说明。若存在未提交改动，列出相关文件并保留；不要覆盖他人的工作。若项目根目录、分支或 worktree 与任务预期不一致，停止并确认。
+
+## 写入边界
+
+`docs/SCOPE.yml` 是默认写入边界协议：
+
+- 编辑前先读取它。
+- 默认只修改 `default_writable` 中的路径。
+- `default_readonly` 可以读取、引用和总结，但不要覆盖。
+- `default_forbidden_without_explicit_user_confirmation` 中的路径或动作必须先获得用户明确同意。
+- 任务需要扩大范围时，先说明原因、目标路径和预期输出。
+
+默认不要覆盖历史评估输出，不要修改数据集、官方 ground truth、模型权重、checkpoint 或大体积二进制产物。
+
+## 初始化后主动访谈
+
+如果 `docs/HANDOFF.md` 的“初始化待采集信息”仍有未确认项，新窗口不要只读完文档就继续猜测。先从仓库中查找便宜、明确的事实，再主动分批向用户询问高影响信息：
+
+- 研究问题、可证伪假设和成功 / 失败标准；
+- 权威 dataset、split、sample scope、official evaluator 和 primary metrics；
+- baseline / current best、命令、config 和证据输出；
+- 必须只读的数据、标签、checkpoint、论文源文件和历史结果；
+- environment、runner、evaluation command、seed、硬件和运行时间约束；
+- 当前 blocker、已失败路线、下一项实验和时间边界。
+
+每轮只问 3–5 个短问题，不要一次抛出长问卷。用户回答后立即回填相关长期文档；未回答项保留为 `待确认`，并写清下一步如何确认。
+
+## 学术实验工作流
+
+完成实验、修复、排查或重要尝试后，把关键事实写入文件，不要只留在聊天里。
+
+- `docs/RESEARCH_LOG.md`：目标、设置、命令、输入、输出、指标、结论和决策。
+- `docs/HANDOFF.md`：当前状态、最近完成、下一步、卡点和风险边界。
+- `docs/COMMANDS.md`：新增或变化的长期可复用命令。
+- `docs/FILE_MAP.md`：新增关键入口、脚本、配置或输出目录。
+- `docs/WRONG_TURNS.md`：已证明无效、证据不足或高风险的路线。
+
+较大的实验使用：
+
+```text
+experiments/YYYY-MM-DD-short-name/
+  README.md
+  command.txt
+  output.txt
+  config.yaml
+  notes.md
+```
+
+不要为填模板而虚构缺失文件；未生成的项目应写 `待确认`。
+
+## 实验记录最低要求
+
+每条关键实验记录至少包含：
+
+- 日期和要验证的问题；
+- 完整命令或脚本路径；
+- 数据集 / split / sample scope；
+- model / checkpoint / environment；
+- config 与随机种子；
+- 输出和日志路径；
+- 主要指标及不确定性或方差（适用时）；
+- baseline / control；
+- 决策：保留、归档、重跑或停止；
+- 已知限制和下一步。
+
+## 根级文档职责
+
+根级 `docs/` 只保留长期入口：
+
+- `COMMANDS.md`
+- `DOC_TEMPLATES.md`
+- `FILE_MAP.md`
+- `HANDOFF.md`
+- `RESEARCH_LOG.md`
+- `SCOPE.yml`
+- `WRONG_TURNS.md`
+
+专题证据、批处理记录、文献审计、训练谱系和长历史放到 `docs/<topic>/` 或 `experiments/<date>-<name>/`，根级文档只留摘要和链接。
+
+## 文档增长护栏
+
+以下是拆分提示，不是硬限制：
+
+- `HANDOFF.md`：建议 150–250 行以内。
+- `COMMANDS.md`：只保留常用、稳定或当前主线命令。
+- `FILE_MAP.md`：只做索引，不做完整证据清单。
+- `RESEARCH_LOG.md`：专题长历史迁出，主日志保留关键研究决策。
+- `WRONG_TURNS.md`：每条保持状态、证据、停止原因和重新考虑条件。
+
+迁移内容时优先移动而非删除；保留实验指标、输出路径、失败结论、`待确认` 和 evidence boundary。
+
+## 验证规则
+
+- 优先最小可验证实验，再跑全量长实验。
+- 修改代码后运行与风险匹配的 smoke test、目标单测或小样本评估。
+- 修改 eval/config 后，同时记录生成命令和正式评估命令。
+- 长运行写日志到 `{{LOG_DIR}}/` 或实验目录。
+- 不要把模拟、report-only、matched-sample analysis 写成正式系统收益。
+- 不要把不同 dataset、split、seed 或 evaluation protocol 的指标直接混比。
+
+## 证据等级
+
+研究结论的默认优先级：
+
+1. 官方评估报告、原始测量、diagnostics 和 run manifest。
+2. 代码、脚本、config、environment lockfile、git commit / git log。
+3. 论文稿和长期维护的项目文档。
+4. 会议记录、聊天恢复和用户口述。
+5. 推断。
+
+缺少命令、输出、指标或对照对象的结论必须标记为 `待确认`。
+
+## Git 安全
+
+- 用户可能在多个分支、worktree 或窗口并行工作。
+- 不要回退自己没有做的改动。
+- 不要使用 `git reset --hard`、强制 checkout、递归删除或历史重写，除非用户明确要求。
+- 大方向优先独立分支或 worktree；合并前把稳定结论沉淀到长期文档。
+
+## 输出规范
+
+- 使用 UTF-8 Markdown。
+- 路径优先相对 `<PROJECT_ROOT>`。
+- 历史或可能失效的路径标记为 `historical path` 或 `待确认`。
+- 使用默认 shell：`{{DEFAULT_SHELL}}`。
+- 不覆盖 evaluation output，除非用户明确指定要复现并接受覆盖风险。

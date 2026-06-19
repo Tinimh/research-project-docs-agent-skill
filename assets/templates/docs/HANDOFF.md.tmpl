@@ -1,0 +1,85 @@
+# Handoff Status
+
+Last updated: {{DATE}}
+
+本文件是新窗口 / 新 agent 的当前交接入口。它只保留继续项目所需的高信号信息；长历史、批处理日志和完整 evidence list 放到专题目录。
+
+如果本文件与旧文档冲突，以最新官方评估、实际代码/config 和本文件中有证据链接的较新记录为准。
+
+## 1. 当前权威状态
+
+- 项目：`{{PROJECT_NAME}}`
+- 研究目标：{{RESEARCH_GOAL}}
+- 当前技术主线：`待确认`
+- 当前 best / baseline：`待确认`
+- 当前瓶颈：`待确认`
+- 当前优先方向：`待确认`
+
+## 2. 当前 best / baseline
+
+主要评价指标：{{PRIMARY_METRICS}}
+
+| system / method | dataset / split | primary metric | secondary metrics | evidence | status |
+| --- | --- | ---: | --- | --- | --- |
+| `待确认` | `待确认` | `待确认` | `待确认` | `待确认` | baseline |
+
+关键评估输出：
+
+```text
+待确认
+```
+
+## 3. 初始化待采集信息
+
+- [ ] 可证伪研究假设和成功 / 失败标准：`待确认`
+- [ ] 权威 dataset / split / sample scope：`待确认`
+- [ ] official evaluator、primary metrics 和统计重复协议：`待确认`
+- [ ] baseline / current best 及其命令、config、证据输出：`待确认`
+- [ ] environment、安装、runner、seed、硬件与运行时间约束：`待确认`
+- [ ] 必须保持只读或需确认后才能修改的资产：`待确认`
+- [ ] 训练、推理、分析和评估主入口：`待确认`
+- [ ] 当前 blocker、失败路线、下一项实验和时间边界：`待确认`
+
+新窗口应优先从仓库核实可发现项，再每轮主动询问 3–5 个高影响未知项。回答必须回填到对应长期文档，不要只留在聊天中。
+
+## 4. 最近完成
+
+- {{DATE}}：初始化项目交接文档骨架；尚未产生实验结论。
+
+## 5. 当前未解决问题
+
+- `待确认`
+
+## 6. 下一步建议
+
+1. 确认 dataset / split / evaluation protocol 和 primary metric。
+2. 建立可复现 baseline，并把命令、config、输出和日志写入 `docs/RESEARCH_LOG.md`。
+3. 根据 baseline failure analysis 决定首个可证伪研究假设。
+
+## 7. 风险与边界
+
+- 不要修改 `{{DATA_DIR}}/` 中的数据或官方标签，除非用户明确要求。
+- 不要覆盖 `{{OUTPUT_DIR}}/` 中已有结果。
+- 不要把未验证的想法、模拟或聊天记录写成实验结论。
+- 当前未知环境、命令、模型、指标和路径均标记为 `待确认`。
+
+## 8. 入口文档
+
+- `AGENTS.md`
+- `docs/SCOPE.yml`
+- `docs/RESEARCH_LOG.md`
+- `docs/COMMANDS.md`
+- `docs/FILE_MAP.md`
+- `docs/WRONG_TURNS.md`
+- `docs/DOC_TEMPLATES.md`
+
+## 9. 每次结束前更新
+
+至少写清：
+
+- 最新完成事项；
+- 精确输出路径；
+- current best / baseline 是否变化；
+- 失败尝试和证据边界；
+- 下一步建议；
+- 卡点和仍待验证的假设。

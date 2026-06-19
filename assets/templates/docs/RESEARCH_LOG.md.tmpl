@@ -1,0 +1,114 @@
+# 研究日志
+
+本文件记录 `{{PROJECT_NAME}}` 的关键实验、指标、结论和研究决策。原始日志和大体积产物保留在实验或输出目录；专题长历史放到 `docs/<topic>/`。
+
+未复核的命令、路径、指标或结论必须标记为 `待确认`。
+
+## 当前结论摘要
+
+- 研究目标：{{RESEARCH_GOAL}}
+- 主要评价指标：{{PRIMARY_METRICS}}
+- 当前 best：`待确认`
+- 当前 baseline：`待确认`
+- 当前瓶颈：`待确认`
+- 当前优先方向：`待确认`
+- 已停止路线：暂无。
+
+## {{DATE}} - 文档与实验协议初始化
+
+### 目标
+
+建立可复现、可交接、保护历史证据的项目文档骨架。
+
+### 设置
+
+- project：`{{PROJECT_NAME}}`
+- code root：`{{CODE_ROOT}}/`
+- dataset root：`{{DATA_DIR}}/`
+- output root：`{{OUTPUT_DIR}}/`
+- log root：`{{LOG_DIR}}/`
+- environment：`待确认`
+- random seed：`待确认`
+
+### 命令
+
+本条只初始化文档，没有运行研究实验。
+
+### 输出
+
+```text
+AGENTS.md
+docs/
+```
+
+### 结果
+
+文档骨架已创建；没有新增实验指标或系统结论。
+
+### 结论
+
+- 决策：保留。
+- 证据强度：high（文件创建事实）；研究结论不适用。
+
+### 下一步
+
+- 确认环境安装和 baseline 运行命令。
+- 运行最小 baseline smoke test。
+- 用下方模板记录首个正式实验。
+
+---
+
+## YYYY-MM-DD - 实验名称
+
+### 目标
+
+写出可证伪问题，不要只写“试一下”。
+
+### 设置
+
+- dataset / split / sample scope：
+- model / checkpoint：
+- baseline / control：
+- environment / dependency lock：
+- config：
+- random seed：
+- key params：
+- hardware（影响复现时）：
+
+### 命令
+
+```powershell
+cd <PROJECT_ROOT>
+# 完整可执行命令；未复核则写 待确认
+```
+
+### 输出
+
+```text
+experiments/YYYY-MM-DD-short-name/
+{{OUTPUT_DIR}}/...
+{{LOG_DIR}}/...
+```
+
+### 结果
+
+| system / method | dataset / split | primary metric | secondary metrics | runtime | notes |
+| --- | --- | ---: | --- | ---: | --- |
+| baseline | | | | | |
+| candidate | | | | | |
+
+如适用，记录均值、标准差 / 置信区间、重复次数、失败样本和资源消耗。
+
+### 结论
+
+- 假设是否被支持：
+- 证据强度：high / medium / low / 待确认
+- 局限：
+
+### 决策
+
+- 保留 / 归档 / 重跑 / 停止：
+
+### 下一步
+
+- 下一项最小验证：
