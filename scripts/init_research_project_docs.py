@@ -36,6 +36,16 @@ POST_INIT_QUESTIONS = [
 
 RECOMMENDED_FIRST_QUESTIONS = POST_INIT_QUESTIONS[:3]
 
+STARTUP_REPORT_FIELDS = [
+    "Project",
+    "Research goal",
+    "Git/root",
+    "Current baseline/best",
+    "Open unknowns",
+    "Safe writable scope",
+    "Next action",
+]
+
 ONBOARDING_NEXT_ACTION = (
     "Ask the user only the recommended_first_questions first, then write answers "
     "back into the durable docs. Keep unanswered facts as 待确认 with a concrete "
@@ -203,6 +213,7 @@ def main() -> int:
             "conflicts": existing,
             "planned_files": list(rendered),
             "message": "No files written because managed targets already exist.",
+            "startup_report_fields": STARTUP_REPORT_FIELDS,
             "next_action": (
                 "Do not overwrite. Report the conflicts and ask whether to use "
                 "--existing-policy skip, audit/edit the existing docs, or overwrite "
@@ -226,6 +237,7 @@ def main() -> int:
         "write": to_write,
         "skip": skipped,
         "overwrite": [rel for rel in to_write if rel in existing],
+        "startup_report_fields": STARTUP_REPORT_FIELDS,
         "next_action": ONBOARDING_NEXT_ACTION,
         "recommended_first_questions": RECOMMENDED_FIRST_QUESTIONS,
         "next_questions": POST_INIT_QUESTIONS,

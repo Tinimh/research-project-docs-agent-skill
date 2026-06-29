@@ -13,6 +13,8 @@
 - 分离当前状态、可复用命令、文件地图、研究日志和负结果记录。
 - 对未知事实使用 `待确认`，不编造环境、命令、指标或研究结论。
 - 初始化后主动进行项目访谈，并把用户回答写回长期文档。
+- 为新 agent 窗口提供固定启动汇报格式，明确项目状态和下一步动作。
+- 为跨窗口或长周期科研任务提供可选任务 / 实验卡片模板。
 - 支持 dry-run、冲突检测、仅补缺失文件、显式覆盖和完整性检查。
 
 ## 生成文件
@@ -66,7 +68,7 @@ Claude Code、Trae 或其他 agent 的自动发现目录可能随版本变化，
 示例请求：
 
 ```text
-Use $init-research-project-docs in this repository: inspect git/root, preview the eight-file docs init, generate without overwriting, then ask the first three onboarding questions.
+Use $init-research-project-docs in this repository: inspect git/root, preview the eight-file docs init, generate without overwriting, report the startup summary, then ask the first three onboarding questions.
 ```
 
 Agent 应当：
@@ -74,9 +76,10 @@ Agent 应当：
 1. 检查 Git 根目录、分支和已有改动；
 2. 从仓库中发现容易确认的事实，并先预览初始化计划；
 3. 安全生成文档，不静默覆盖现有文件；
-4. 主动询问首轮 3 个高影响项目问题，而不是停在泛泛澄清；
-5. 把回答写入对应长期文档；
-6. 验证生成结果并报告剩余的 `待确认` 项。
+4. 输出固定启动汇报字段；
+5. 主动询问首轮 3 个高影响项目问题，而不是停在泛泛澄清；
+6. 把回答写入对应长期文档；
+7. 验证生成结果并报告剩余的 `待确认` 项。
 
 ## 直接运行脚本
 

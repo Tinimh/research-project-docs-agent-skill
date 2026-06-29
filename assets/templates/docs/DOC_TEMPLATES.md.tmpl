@@ -179,6 +179,147 @@ experiments/YYYY-MM-DD-short-name/
 ## Evidence boundary
 ```
 
+## 任务 / 实验卡片包
+
+用于跨窗口执行的非平凡任务、长实验、论文图表重做、baseline 复现、消融实验或风险较高的代码修改。默认放在：
+
+```text
+experiments/YYYY-MM-DD-short-name/
+  PROGRAM.md      # 任务合同：目标、范围、验收标准
+  STATUS.yml      # 机器可读状态：阶段、进度、下一步
+  SCOPE.yml       # 本任务的临时写入边界；不得放宽根级 SCOPE.yml
+  HANDOFF.md      # 跨窗口交接；只写继续任务必需信息
+  RESULT.md       # 完成后结果、证据、结论和决策
+```
+
+不要机械创建全部文件。短任务只需要 `README.md` 或 `notes.md`；只有任务会跨窗口、跨天、涉及多步骤验证或需要明确验收标准时，才创建卡片包。
+
+### `PROGRAM.md`
+
+```md
+# 任务名称
+
+## Objective
+
+- 要解决的问题：
+- 不做什么：
+
+## Background
+
+- 当前状态：
+- 相关文档：
+- 相关代码 / config / dataset：
+
+## Acceptance criteria
+
+- [ ] 可验证交付物：
+- [ ] 必须运行的检查：
+- [ ] 必须记录的指标：
+
+## Plan
+
+1.
+2.
+3.
+
+## Risks
+
+- 数据 / 标签 / checkpoint 保护：
+- 可能覆盖的输出：
+- 需要用户确认的动作：
+```
+
+### `STATUS.yml`
+
+```yml
+task: "任务名称"
+status: planned   # planned | running | blocked | done | archived
+phase: "待确认"
+owner_agent: "待确认"
+last_updated: "{{DATE}}"
+current_step: "待确认"
+next_step: "待确认"
+blocked_by: []
+important_paths:
+  program: "experiments/YYYY-MM-DD-short-name/PROGRAM.md"
+  handoff: "experiments/YYYY-MM-DD-short-name/HANDOFF.md"
+  result: "experiments/YYYY-MM-DD-short-name/RESULT.md"
+  logs: "{{LOG_DIR}}/..."
+validation:
+  required: []
+  completed: []
+evidence:
+  outputs: []
+  metrics: []
+```
+
+### `SCOPE.yml`
+
+```yml
+task_scope:
+  default_writable:
+    - "experiments/YYYY-MM-DD-short-name/"
+    - "{{LOG_DIR}}/"
+  default_readonly:
+    - "{{DATA_DIR}}/"
+    - "docs/"
+  requires_explicit_confirmation:
+    - "official ground truth"
+    - "checkpoints or model weights"
+    - "historical evaluation outputs"
+    - "large binary artifacts"
+  forbidden:
+    - "destructive git history rewrites"
+    - "silent overwrite of evidence outputs"
+```
+
+### `HANDOFF.md`
+
+```md
+# 任务交接
+
+## Current state
+
+## Completed
+
+## In progress
+
+## Next action
+
+## Commands run
+
+## Outputs / evidence
+
+## Blockers / unknowns
+
+## Safe resume instructions
+```
+
+### `RESULT.md`
+
+```md
+# 任务结果
+
+## Summary
+
+## Commands
+
+## Outputs
+
+## Metrics
+
+## Decision
+
+保留 / 归档 / 重跑 / 停止：
+
+## Evidence boundary
+
+- 哪些结论已被正式评估支持：
+- 哪些只是 smoke / report-only / matched-sample / 推断：
+
+## Follow-up
+```
+
 ## 专题目录模板
 
 用于训练谱系、claim-evidence audit、文献审计、长批处理或历史恢复：

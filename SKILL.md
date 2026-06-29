@@ -16,11 +16,12 @@ When this skill is invoked, do not answer with a generic “what should I do nex
 3. Discover cheap durable facts from filenames and obvious repository metadata. Use `待确认` for unknowns; do not block initialization waiting for a perfect project brief.
 4. Run the bundled script once with `--dry-run`, using verified facts and `待确认` placeholders.
 5. If no managed files exist and the user asked to initialize, rerun without `--dry-run`. If conflicts exist, do not overwrite; report the conflicts and ask whether to skip existing files, audit/edit existing docs, or overwrite after explicit approval.
-6. After generation or safe skip, ask the first onboarding round instead of stopping. Start with exactly these three questions unless the answers are already known:
+6. Report a compact startup summary with: `Project`, `Research goal`, `Git/root`, `Current baseline/best`, `Open unknowns`, `Safe writable scope`, and `Next action`.
+7. After generation or safe skip, ask the first onboarding round instead of stopping. Start with exactly these three questions unless the answers are already known:
    - What is the exact research question or falsifiable hypothesis, and what result counts as success or failure?
    - Which dataset/split/sample scope, official evaluator, primary metrics, and baseline are authoritative?
    - Which datasets, labels, checkpoints, raw measurements, manuscripts, historical outputs, or external repos must remain read-only?
-7. Write user answers back into the appropriate long-term documents. If the user defers an answer, keep `待确认` in the files and add a concrete next action in `docs/HANDOFF.md`.
+8. Write user answers back into the appropriate long-term documents. If the user defers an answer, keep `待确认` in the files and add a concrete next action in `docs/HANDOFF.md`.
 
 ## Output set
 
@@ -38,6 +39,21 @@ docs/WRONG_TURNS.md
 ```
 
 Keep detailed experiment artifacts under `experiments/` or a topic-specific subdirectory. Do not turn root `docs/` into a chronological dump.
+
+## Single source of truth
+
+Keep each durable fact in exactly one canonical place, then link or summarize it elsewhere.
+
+- `AGENTS.md`: stable agent rules, reading order, evidence policy, Git safety, and workflow expectations. Do not maintain current experiment status here.
+- `docs/SCOPE.yml`: write boundaries, protected assets, approval-required paths, and forbidden actions.
+- `docs/HANDOFF.md`: current status, current best/baseline, blockers, next actions, and unresolved onboarding items.
+- `docs/RESEARCH_LOG.md`: reproducible experiments, commands, inputs, outputs, metrics, conclusions, and decisions.
+- `docs/COMMANDS.md`: stable or currently reusable commands only.
+- `docs/FILE_MAP.md`: durable resource map: code roots, datasets, evaluators, model/checkpoint locations, output/log roots, manuscript roots, and evidence locations.
+- `docs/WRONG_TURNS.md`: negative results, failed routes, evidence strength, stop reasons, and reconsideration conditions.
+- `docs/DOC_TEMPLATES.md`: reusable snippets and optional task/experiment card templates.
+
+Before adding repeated status, baseline, path, or command information to multiple files, update the canonical file and add a short pointer from the other file. Avoid parallel copies of the same current state.
 
 ## Workflow
 
@@ -141,6 +157,8 @@ Inspect the repository and replace generic rows with verified facts:
 - In `docs/DOC_TEMPLATES.md`, keep reusable record snippets aligned with the project’s actual metric schema.
 
 Prefer relative paths. Keep machine-specific absolute paths only when required for reproducibility, and label historical or uncertain paths.
+
+For a non-trivial experiment or research task, suggest using the task card pack in `docs/DOC_TEMPLATES.md` under `experiments/YYYY-MM-DD-short-name/`. Do not create every task-card file mechanically; create only the pieces needed for the task’s risk and duration.
 
 ### 7. Validate
 

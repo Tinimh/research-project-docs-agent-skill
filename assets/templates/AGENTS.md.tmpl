@@ -40,6 +40,18 @@
    - 哪些 dataset、label、checkpoint、raw measurement、manuscript、historical output 或 external repo 必须保持只读？
 6. 用户回答后立即写入对应长期文档；未回答项保留为 `待确认`，并在 `docs/HANDOFF.md` 写清下一步确认方式。
 
+启动汇报使用以下固定格式，保持简短：
+
+```text
+Project:
+Research goal:
+Git/root:
+Current baseline/best:
+Open unknowns:
+Safe writable scope:
+Next action:
+```
+
 ## 启动前检查
 
 任何编辑、实验、评估或文档整理前，先运行并向用户概述：
@@ -127,6 +139,19 @@ experiments/YYYY-MM-DD-short-name/
 - `WRONG_TURNS.md`
 
 专题证据、批处理记录、文献审计、训练谱系和长历史放到 `docs/<topic>/` 或 `experiments/<date>-<name>/`，根级文档只留摘要和链接。
+
+## 单一真相源
+
+- `AGENTS.md`：稳定规则、阅读顺序、证据规则、Git 安全和工作流约定；不要维护当前实验状态。
+- `docs/SCOPE.yml`：写入边界、只读资产、需要确认的路径和禁止动作。
+- `docs/HANDOFF.md`：当前状态、current best / baseline、卡点、下一步和初始化未确认项。
+- `docs/RESEARCH_LOG.md`：实验事实、命令、输入、输出、指标、结论和决策。
+- `docs/COMMANDS.md`：稳定或当前仍会复用的命令。
+- `docs/FILE_MAP.md`：代码入口、dataset、evaluator、checkpoint、输出、日志、论文和证据位置索引。
+- `docs/WRONG_TURNS.md`：负结果、失败路线、证据强度、停止原因和重新考虑条件。
+- `docs/DOC_TEMPLATES.md`：可复制模板和可选任务卡片。
+
+不要在多个文件维护同一份动态状态。需要重复出现时，更新权威文件，并在其他文件写摘要和链接。
 
 ## 文档增长护栏
 
