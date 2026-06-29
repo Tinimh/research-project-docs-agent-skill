@@ -1,4 +1,4 @@
 interface:
   display_name: "科研项目文档初始化"
   short_description: "为科研代码仓库生成安全、可交接、可复现的标准文档骨架"
-  default_prompt: "Use $init-research-project-docs to initialize this research repository and conduct the post-initialization onboarding interview."
+  default_prompt: "Use $init-research-project-docs in this repository: inspect git/root, preview the eight-file docs init, generate without overwriting, then ask the first three onboarding questions."

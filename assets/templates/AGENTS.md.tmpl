@@ -26,6 +26,20 @@
 
 写作或整理根级文档时，再读 `docs/DOC_TEMPLATES.md`。仅按当前任务读取必要的专题文档，不要默认遍历全部历史资料。
 
+## 新窗口默认动作
+
+如果用户只说“初始化这个项目”“新窗口接手”“看一下项目文档”，或没有给出具体实验任务，不要停在泛泛询问。按顺序执行：
+
+1. 按“新窗口必读顺序”读取最小交接文档。
+2. 执行“启动前检查”，说明 Git root、分支和未提交改动。
+3. 检查 `docs/HANDOFF.md` 的“初始化待采集信息”。
+4. 若长期文档缺失，安全补齐或报告冲突；若长期文档已存在，基于当前状态接手，不重建历史。
+5. 若仍有高风险未知项，首轮只问以下 3 个问题：
+   - 研究问题或可证伪假设是什么？什么结果算成功或失败？
+   - 权威 dataset / split / sample scope、official evaluator、primary metrics 和 baseline 是什么？
+   - 哪些 dataset、label、checkpoint、raw measurement、manuscript、historical output 或 external repo 必须保持只读？
+6. 用户回答后立即写入对应长期文档；未回答项保留为 `待确认`，并在 `docs/HANDOFF.md` 写清下一步确认方式。
+
 ## 启动前检查
 
 任何编辑、实验、评估或文档整理前，先运行并向用户概述：

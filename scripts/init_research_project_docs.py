@@ -34,6 +34,14 @@ POST_INIT_QUESTIONS = [
     "当前 blocker、已知失败路线、下一项实验和时间边界是什么？",
 ]
 
+RECOMMENDED_FIRST_QUESTIONS = POST_INIT_QUESTIONS[:3]
+
+ONBOARDING_NEXT_ACTION = (
+    "Ask the user only the recommended_first_questions first, then write answers "
+    "back into the durable docs. Keep unanswered facts as 待确认 with a concrete "
+    "next action in docs/HANDOFF.md."
+)
+
 TOKEN_RE = re.compile(r"\{\{[A-Z0-9_]+\}\}")
 
 
@@ -195,6 +203,11 @@ def main() -> int:
             "conflicts": existing,
             "planned_files": list(rendered),
             "message": "No files written because managed targets already exist.",
+            "next_action": (
+                "Do not overwrite. Report the conflicts and ask whether to use "
+                "--existing-policy skip, audit/edit the existing docs, or overwrite "
+                "after explicit approval."
+            ),
         }
         print(json.dumps(report, ensure_ascii=False, indent=2))
         return 2
@@ -213,6 +226,8 @@ def main() -> int:
         "write": to_write,
         "skip": skipped,
         "overwrite": [rel for rel in to_write if rel in existing],
+        "next_action": ONBOARDING_NEXT_ACTION,
+        "recommended_first_questions": RECOMMENDED_FIRST_QUESTIONS,
         "next_questions": POST_INIT_QUESTIONS,
     }
 

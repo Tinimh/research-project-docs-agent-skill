@@ -1,11 +1,26 @@
 ---
 name: init-research-project-docs
-description: "Initialize a new academic or experimental code repository with a safe, evidence-aware documentation system: AGENTS.md plus docs/COMMANDS.md, DOC_TEMPLATES.md, FILE_MAP.md, HANDOFF.md, RESEARCH_LOG.md, SCOPE.yml, and WRONG_TURNS.md. Use when an AI coding agent needs to scaffold, bootstrap, or standardize documentation for a new research project, reproducible experiment repository, thesis codebase, or lab prototype; also use for a dry-run audit before adopting this structure in an existing repository."
+description: "Initialize a new academic or experimental code repository with a safe, evidence-aware documentation system: AGENTS.md plus docs/COMMANDS.md, DOC_TEMPLATES.md, FILE_MAP.md, HANDOFF.md, RESEARCH_LOG.md, SCOPE.yml, and WRONG_TURNS.md. Use when a user asks an AI coding agent or a new Codex/agent window to scaffold, bootstrap, standardize, or audit documentation for a research project, reproducible experiment repository, thesis codebase, or lab prototype; especially when the agent needs a concrete first-turn procedure, safe existing-file behavior, and a post-init onboarding interview."
 ---
 
 # Initialize Research Project Docs
 
 Create a compact documentation control plane for a research repository. Generate portable templates, then adapt them to evidence already present in the target repository without inventing commands, paths, metrics, or conclusions.
+
+## First-turn contract
+
+When this skill is invoked, do not answer with a generic “what should I do next?” question. Act as the initialization operator.
+
+1. Resolve the target project root from the user request or current working directory. If only one plausible root exists, state that assumption and continue. If the Git root differs from the requested target, stop and ask for confirmation.
+2. If the target is a Git repository, run the Git safety checks in the workflow below and report branch, root, and dirty files before writing.
+3. Discover cheap durable facts from filenames and obvious repository metadata. Use `待确认` for unknowns; do not block initialization waiting for a perfect project brief.
+4. Run the bundled script once with `--dry-run`, using verified facts and `待确认` placeholders.
+5. If no managed files exist and the user asked to initialize, rerun without `--dry-run`. If conflicts exist, do not overwrite; report the conflicts and ask whether to skip existing files, audit/edit existing docs, or overwrite after explicit approval.
+6. After generation or safe skip, ask the first onboarding round instead of stopping. Start with exactly these three questions unless the answers are already known:
+   - What is the exact research question or falsifiable hypothesis, and what result counts as success or failure?
+   - Which dataset/split/sample scope, official evaluator, primary metrics, and baseline are authoritative?
+   - Which datasets, labels, checkpoints, raw measurements, manuscripts, historical outputs, or external repos must remain read-only?
+7. Write user answers back into the appropriate long-term documents. If the user defers an answer, keep `待确认` in the files and add a concrete next action in `docs/HANDOFF.md`.
 
 ## Output set
 

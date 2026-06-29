@@ -66,7 +66,7 @@ For Claude Code, Trae, or another agent, verify the skill discovery directory su
 Example request:
 
 ```text
-Use $init-research-project-docs to initialize documentation for this research repository.
+Use $init-research-project-docs in this repository: inspect git/root, preview the eight-file docs init, generate without overwriting, then ask the first three onboarding questions.
 ```
 
 The agent should:
@@ -74,7 +74,7 @@ The agent should:
 1. inspect the Git root, branch, and existing changes;
 2. discover cheap repository facts and preview the initialization;
 3. generate the documentation without silently overwriting existing files;
-4. ask 3–5 high-impact onboarding questions at a time;
+4. ask the first three onboarding questions instead of stopping at a generic clarification;
 5. write the answers into the appropriate long-term documents;
 6. validate the generated document set and report remaining `待确认` items.
 

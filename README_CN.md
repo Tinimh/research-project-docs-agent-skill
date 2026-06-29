@@ -66,7 +66,7 @@ Claude Code、Trae 或其他 agent 的自动发现目录可能随版本变化，
 示例请求：
 
 ```text
-Use $init-research-project-docs to initialize documentation for this research repository.
+Use $init-research-project-docs in this repository: inspect git/root, preview the eight-file docs init, generate without overwriting, then ask the first three onboarding questions.
 ```
 
 Agent 应当：
@@ -74,7 +74,7 @@ Agent 应当：
 1. 检查 Git 根目录、分支和已有改动；
 2. 从仓库中发现容易确认的事实，并先预览初始化计划；
 3. 安全生成文档，不静默覆盖现有文件；
-4. 每轮主动询问 3–5 个高影响项目问题；
+4. 主动询问首轮 3 个高影响项目问题，而不是停在泛泛澄清；
 5. 把回答写入对应长期文档；
 6. 验证生成结果并报告剩余的 `待确认` 项。
 
