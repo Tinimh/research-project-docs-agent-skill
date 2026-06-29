@@ -55,6 +55,21 @@ Keep each durable fact in exactly one canonical place, then link or summarize it
 
 Before adding repeated status, baseline, path, or command information to multiple files, update the canonical file and add a short pointer from the other file. Avoid parallel copies of the same current state.
 
+## Conversation-to-doc capture
+
+Capture user clarifications from the chat when they affect future agent decisions. Do not write every conversation turn into the repository.
+
+Record a clarification when the user provides or corrects:
+
+- current status, blockers, priorities, next actions, or deadlines;
+- dataset/split/evaluator/metric/baseline facts;
+- paths for code, data, checkpoints, outputs, logs, papers, or external repositories;
+- assets that must remain read-only or require explicit approval;
+- historical decisions, failed routes, stop reasons, or reconsideration conditions;
+- environment, command, branch/worktree, or workflow conventions.
+
+Route each clarification to the canonical file from the single-source-of-truth rules. Mark `source: user clarification in chat` and use evidence level `用户口述 / 待确认` unless the repository contains durable supporting evidence. Never turn a user recollection into a formal experimental result without commands, outputs, metrics, and an evidence path.
+
 ## Workflow
 
 ### 1. Inspect before writing
@@ -140,6 +155,8 @@ After each answer batch, update the relevant files rather than leaving the infor
 - entrypoints and durable paths -> `FILE_MAP.md`;
 - known failed routes -> `WRONG_TURNS.md`;
 - next experiment and blockers -> `HANDOFF.md`.
+
+If a user clarification is useful but not yet backed by durable evidence, add a short entry to `docs/HANDOFF.md` with source, impact, evidence level, and the next confirmation action.
 
 Finish the onboarding phase only when the user says the remaining unknowns can stay deferred, or when every high-risk unknown is either answered or explicitly marked `待确认` with a next action.
 

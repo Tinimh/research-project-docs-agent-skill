@@ -111,9 +111,16 @@ def audit_file(root: Path, rel: str) -> dict[str, object]:
             issues.append("missing_startup_report_format")
         if "单一真相源" not in text and "single source of truth" not in text.lower():
             issues.append("missing_single_source_of_truth")
+        if "用户澄清" not in text and "conversation-to-doc" not in text.lower():
+            issues.append("missing_conversation_capture_rule")
+    if rel == "docs/HANDOFF.md":
+        if "用户澄清" not in text and "user clarification" not in text.lower():
+            issues.append("missing_user_clarification_parking")
     if rel == "docs/DOC_TEMPLATES.md":
         if "任务 / 实验卡片包" not in text and "task card" not in text.lower():
             issues.append("missing_task_card_template")
+        if "用户澄清" not in text and "user clarification" not in text.lower():
+            issues.append("missing_user_clarification_template")
     if rel == "docs/HANDOFF.md" and lines > 250:
         issues.append("handoff_may_contain_history_dump")
     if rel == "docs/COMMANDS.md" and lines > 350:
@@ -169,8 +176,14 @@ def build_recommendations(files: list[dict[str, object]], extras: list[str]) -> 
             recs.append("Add a fixed startup report format to AGENTS.md.")
         if "missing_single_source_of_truth" in issues:
             recs.append("Add single-source-of-truth rules to AGENTS.md.")
+        if "missing_conversation_capture_rule" in issues:
+            recs.append("Add conversation-to-doc capture rules to AGENTS.md.")
+        if "missing_user_clarification_parking" in issues:
+            recs.append("Add a compact user-clarification / unresolved-background parking section to docs/HANDOFF.md.")
         if "missing_task_card_template" in issues:
             recs.append("Add optional task/experiment card templates to docs/DOC_TEMPLATES.md.")
+        if "missing_user_clarification_template" in issues:
+            recs.append("Add a user-clarification record template to docs/DOC_TEMPLATES.md.")
         if "handoff_may_contain_history_dump" in issues:
             recs.append("Slim docs/HANDOFF.md to current state and move history into topic or experiment directories.")
         if "commands_may_contain_one_off_history" in issues:

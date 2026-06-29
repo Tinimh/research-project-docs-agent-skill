@@ -22,10 +22,11 @@ The portable core of each skill is its `SKILL.md`, `scripts/`, and optional `ass
 - Separates current status, commands, file maps, research logs, and negative results.
 - Uses `待确认` for unknown facts instead of inventing commands, metrics, or conclusions.
 - Starts a guided post-initialization interview and writes answers back into durable project documentation.
+- Captures project-relevant user clarifications from chat with source and evidence-level labels.
 - Gives new agent windows a fixed startup report format so they can state project status and next action clearly.
 - Provides optional task/experiment cards for long-running or cross-window research work.
 - Supports safe preview, conflict detection, missing-file initialization, explicit overwrite, and validation.
-- Audits old root docs before refactoring and reports missing files, overlong docs, duplicate responsibilities, absolute paths, placeholders, and evidence-boundary risks.
+- Audits old root docs before refactoring and reports missing files, overlong docs, duplicate responsibilities, missing conversation-capture rules, absolute paths, placeholders, and evidence-boundary risks.
 
 ## Generated files
 

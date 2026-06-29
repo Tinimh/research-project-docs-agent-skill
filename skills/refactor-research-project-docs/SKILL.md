@@ -31,7 +31,7 @@ When this skill is invoked, act as a documentation refactor operator, not a gene
    - root docs that are too long or have mixed responsibilities;
    - duplicated current state, baseline, commands, or paths;
    - long historical sections that should move to `docs/<topic>/` or `experiments/<date>-<name>/`;
-   - missing startup report, single-source-of-truth rules, or task-card templates;
+   - missing startup report, single-source-of-truth rules, conversation-capture rules, or task-card templates;
    - files you intend to edit or create.
 6. If the plan moves large content, rewrites established docs, or touches anything outside the documented writable scope, ask for explicit approval before editing.
 7. After edits, validate structure and report remaining `待确认` items. Do not claim an experiment result was validated unless durable evidence supports it.
@@ -66,6 +66,18 @@ If one of these files is missing, either add it using the project’s existing s
 
 When the same dynamic fact appears in multiple files, choose the canonical file above, keep the detailed record there, and replace other copies with short summaries and links.
 
+## Conversation-to-doc capture
+
+During a refactor, make sure the project has a rule for preserving user clarifications that matter for future work. The rule should say:
+
+- record only project-relevant clarifications, not entire chats;
+- route them to the correct single source of truth;
+- mark `source: user clarification in chat`;
+- mark evidence level as `用户口述 / 待确认` until supported by durable evidence;
+- never present user recollection as a formal experiment result.
+
+If old docs contain chat-derived facts without evidence boundaries, move or annotate them rather than deleting them. If the project has no place to park unresolved clarifications, add a compact section to `docs/HANDOFF.md`.
+
 ## Refactor workflow
 
 ### 1. Audit
@@ -81,7 +93,8 @@ Check for:
 - file inventories or evidence dumps in `FILE_MAP.md`;
 - long historical narratives in `HANDOFF.md`;
 - report-only, simulation, matched-sample, or chat-derived claims written as formal system gains;
-- missing startup report format and missing single-source-of-truth rules in `AGENTS.md`;
+- missing startup report format, missing single-source-of-truth rules, or missing conversation-capture rules in `AGENTS.md`;
+- missing user-clarification / unresolved-background parking section in `HANDOFF.md`;
 - missing task/experiment card templates in `DOC_TEMPLATES.md`.
 
 ### 2. Classify content before moving
@@ -103,13 +116,13 @@ Use these destinations:
 
 Prefer small, reviewable batches:
 
-1. add startup report and single-source-of-truth rules to `AGENTS.md`;
+1. add startup report, single-source-of-truth, and conversation-capture rules to `AGENTS.md`;
 2. make `HANDOFF.md` current-status only;
 3. move long historical sections into topic directories with links back;
 4. trim `COMMANDS.md` to stable/current commands;
 5. make `FILE_MAP.md` an index, not a full evidence dump;
 6. preserve negative results in `WRONG_TURNS.md`;
-7. add task-card templates to `DOC_TEMPLATES.md`.
+7. add user-clarification and task-card templates to `DOC_TEMPLATES.md`.
 
 Do not combine all steps into one large rewrite unless the user explicitly asks.
 
