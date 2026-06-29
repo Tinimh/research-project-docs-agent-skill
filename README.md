@@ -1,10 +1,19 @@
-# Research Project Docs Agent Skill
+# Research Project Docs Agent Skills
 
 [中文说明](README_CN.md)
 
-A cross-agent skill for initializing research repositories with evidence-aware documentation, reproducible experiment records, safe write boundaries, and guided project onboarding.
+A cross-agent skill set for initializing and refactoring research repository documentation with evidence-aware handoff rules, reproducible experiment records, safe write boundaries, and guided project onboarding.
 
-The portable core is `SKILL.md`, `scripts/`, and `assets/`. `agents/openai.yaml` provides optional OpenAI/Codex UI metadata and may be ignored by other agents.
+The repository root remains the installable `init-research-project-docs` skill for backward compatibility. The companion `refactor-research-project-docs` skill lives under `skills/refactor-research-project-docs/`.
+
+## Included skills
+
+| Skill | Location | Use it when |
+| --- | --- | --- |
+| `init-research-project-docs` | repository root | Starting a new research project or adding the standard docs control plane |
+| `refactor-research-project-docs` | `skills/refactor-research-project-docs/` | Cleaning up, slimming, splitting, or standardizing existing old research docs |
+
+The portable core of each skill is its `SKILL.md`, `scripts/`, and optional `assets/`. `agents/openai.yaml` provides optional OpenAI/Codex UI metadata and may be ignored by other agents.
 
 ## Features
 
@@ -16,6 +25,7 @@ The portable core is `SKILL.md`, `scripts/`, and `assets/`. `agents/openai.yaml`
 - Gives new agent windows a fixed startup report format so they can state project status and next action clearly.
 - Provides optional task/experiment cards for long-running or cross-window research work.
 - Supports safe preview, conflict detection, missing-file initialization, explicit overwrite, and validation.
+- Audits old root docs before refactoring and reports missing files, overlong docs, duplicate responsibilities, absolute paths, placeholders, and evidence-boundary risks.
 
 ## Generated files
 
@@ -63,12 +73,27 @@ git clone https://github.com/Tinimh/research-project-docs-agent-skill.git \
 
 For Claude Code, Trae, or another agent, verify the skill discovery directory supported by the installed version. If automatic discovery is unavailable, explicitly ask the agent to read this repository's `SKILL.md` and follow it. Do not assume every agent automatically loads `AGENTS.md`.
 
+To install the companion refactor skill into Codex after cloning this repository:
+
+```powershell
+Copy-Item `
+  -Recurse `
+  -LiteralPath .\skills\refactor-research-project-docs `
+  -Destination "$env:USERPROFILE\.codex\skills\refactor-research-project-docs"
+```
+
 ## Usage with an agent
 
-Example request:
+Initialize a new project:
 
 ```text
 Use $init-research-project-docs in this repository: inspect git/root, preview the eight-file docs init, generate without overwriting, report the startup summary, then ask the first three onboarding questions.
+```
+
+Refactor existing old docs:
+
+```text
+Use $refactor-research-project-docs to audit this existing research repository docs, propose a safe refactor plan, then apply approved documentation-only changes.
 ```
 
 The agent should:
@@ -114,6 +139,13 @@ Validate an initialized project:
 python scripts/init_research_project_docs.py --project-root <PROJECT_ROOT> --check
 ```
 
+Audit existing docs before refactoring:
+
+```powershell
+python skills/refactor-research-project-docs/scripts/audit_research_docs.py `
+  --project-root <PROJECT_ROOT>
+```
+
 Existing-file policies:
 
 - `error` — default; abort before writing if any managed file already exists.
@@ -123,10 +155,14 @@ Existing-file policies:
 ## Repository structure
 
 ```text
-SKILL.md
+SKILL.md                                      # init-research-project-docs
 agents/openai.yaml
 assets/templates/
 scripts/init_research_project_docs.py
+skills/refactor-research-project-docs/
+  SKILL.md
+  agents/openai.yaml
+  scripts/audit_research_docs.py
 ```
 
 ## Validation
@@ -137,7 +173,8 @@ The release is checked with the skill validator and a temporary-project smoke te
 - unresolved-placeholder detection;
 - YAML parsing of `docs/SCOPE.yml`;
 - post-initialization question output;
-- default conflict protection.
+- default conflict protection;
+- read-only old-docs audit for the companion refactor skill.
 
 ## License
 
