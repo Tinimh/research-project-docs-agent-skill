@@ -2,9 +2,9 @@
 
 [English](README.md)
 
-这是一组跨 agent 使用的科研项目文档 skills，用于初始化新项目文档体系，也用于审计、瘦身和重构已有老文档。
+这是一组跨 agent 使用的科研项目文档 skills，用于初始化新项目文档体系，审计、瘦身和重构已有老文档，也用于给自定义科研路线分支规划分支内文档。
 
-仓库根目录仍保持为可直接安装的 `init-research-project-docs` skill，以兼容之前的安装方式。配套的 `refactor-research-project-docs` skill 放在 `skills/refactor-research-project-docs/`。
+仓库根目录仍保持为可直接安装的 `init-research-project-docs` skill，以兼容之前的安装方式。配套 skills 放在 `skills/`。
 
 ## 包含的 skills
 
@@ -12,6 +12,7 @@
 | --- | --- | --- |
 | `init-research-project-docs` | 仓库根目录 | 新科研项目初始化，或补齐标准文档控制面 |
 | `refactor-research-project-docs` | `skills/refactor-research-project-docs/` | 清理、瘦身、拆分和标准化已有老文档 |
+| `migrate-research-docs-branch` | `skills/migrate-research-docs-branch/` | 给自定义科研路线分支建立分支内当前文档，同时保留主分支文档作参考 |
 
 每个 skill 的可移植核心是自己的 `SKILL.md`、`scripts/` 和可选 `assets/`。`agents/openai.yaml` 仅提供可选的 OpenAI/Codex UI 元数据，其他 agent 可以安全忽略。
 
@@ -27,6 +28,7 @@
 - 为跨窗口或长周期科研任务提供可选任务 / 实验卡片模板。
 - 支持 dry-run、冲突检测、仅补缺失文件、显式覆盖和完整性检查。
 - 对老项目根级文档做只读审计，报告缺失文件、过长文档、职责重复、缺少用户澄清记录规则、绝对路径、占位符和证据边界风险。
+- 在明确批准前，只规划自定义科研路线分支的 branch-aware docs，不切分支也不重写文档。
 
 ## 生成文件
 
@@ -74,13 +76,18 @@ git clone https://github.com/Tinimh/research-project-docs-agent-skill.git \
 
 Claude Code、Trae 或其他 agent 的自动发现目录可能随版本变化，请以当前版本文档为准。如果不支持自动发现，可以明确要求 agent 读取本仓库的 `SKILL.md` 并按其执行。不要假设所有 agent 都会自动加载 `AGENTS.md`。
 
-克隆本仓库后，如需把配套重构 skill 安装到 Codex：
+克隆本仓库后，如需把配套 skills 安装到 Codex：
 
 ```powershell
 Copy-Item `
   -Recurse `
   -LiteralPath .\skills\refactor-research-project-docs `
   -Destination "$env:USERPROFILE\.codex\skills\refactor-research-project-docs"
+
+Copy-Item `
+  -Recurse `
+  -LiteralPath .\skills\migrate-research-docs-branch `
+  -Destination "$env:USERPROFILE\.codex\skills\migrate-research-docs-branch"
 ```
 
 ## 通过 agent 使用
@@ -95,6 +102,12 @@ Use $init-research-project-docs in this repository: inspect git/root, preview th
 
 ```text
 Use $refactor-research-project-docs to audit this existing research repository docs, propose a safe refactor plan, then apply approved documentation-only changes.
+```
+
+规划自定义科研路线分支的 branch-aware docs：
+
+```text
+Use $migrate-research-docs-branch to plan branch-aware docs for my custom research-route branch: preserve source docs as reference, keep branch-local docs current, and do not change state before approval.
 ```
 
 Agent 应当：
@@ -147,6 +160,15 @@ python skills/refactor-research-project-docs/scripts/audit_research_docs.py `
   --project-root <PROJECT_ROOT>
 ```
 
+只读规划科研路线分支文档：
+
+```powershell
+python skills/migrate-research-docs-branch/scripts/plan_docs_branch_migration.py `
+  --project-root <PROJECT_ROOT> `
+  --new-branch <CUSTOM_RESEARCH_BRANCH> `
+  --reference-dir docs/branch_reference/main
+```
+
 已有文件策略：
 
 - `error`：默认策略；只要存在受管理文件，就在写入前整体停止。
@@ -164,6 +186,10 @@ skills/refactor-research-project-docs/
   SKILL.md
   agents/openai.yaml
   scripts/audit_research_docs.py
+skills/migrate-research-docs-branch/
+  SKILL.md
+  agents/openai.yaml
+  scripts/plan_docs_branch_migration.py
 ```
 
 ## 验证
@@ -175,7 +201,8 @@ skills/refactor-research-project-docs/
 - `docs/SCOPE.yml` YAML 解析；
 - 初始化后主动问题输出；
 - 默认冲突保护；
-- 配套重构 skill 的只读老文档审计。
+- 配套重构 skill 的只读老文档审计；
+- 配套分支迁移 skill 的只读 branch-aware route-doc 规划。
 
 ## License
 

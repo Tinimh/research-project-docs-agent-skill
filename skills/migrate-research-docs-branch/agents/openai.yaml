@@ -1,0 +1,4 @@
+interface:
+  display_name: "科研文档分支迁移"
+  short_description: "规划自定义科研路线分支的独立文档与主分支参考边界"
+  default_prompt: "Use $migrate-research-docs-branch to plan branch-aware docs for my custom research-route branch: preserve source docs as reference, keep branch-local docs current, and do not change state before approval."

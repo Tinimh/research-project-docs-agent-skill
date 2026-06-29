@@ -2,9 +2,9 @@
 
 [中文说明](README_CN.md)
 
-A cross-agent skill set for initializing and refactoring research repository documentation with evidence-aware handoff rules, reproducible experiment records, safe write boundaries, and guided project onboarding.
+A cross-agent skill set for initializing, refactoring, and branch-aware research-route documentation with evidence-aware handoff rules, reproducible experiment records, safe write boundaries, and guided project onboarding.
 
-The repository root remains the installable `init-research-project-docs` skill for backward compatibility. The companion `refactor-research-project-docs` skill lives under `skills/refactor-research-project-docs/`.
+The repository root remains the installable `init-research-project-docs` skill for backward compatibility. Companion skills live under `skills/`.
 
 ## Included skills
 
@@ -12,6 +12,7 @@ The repository root remains the installable `init-research-project-docs` skill f
 | --- | --- | --- |
 | `init-research-project-docs` | repository root | Starting a new research project or adding the standard docs control plane |
 | `refactor-research-project-docs` | `skills/refactor-research-project-docs/` | Cleaning up, slimming, splitting, or standardizing existing old research docs |
+| `migrate-research-docs-branch` | `skills/migrate-research-docs-branch/` | Preparing branch-local docs for a custom research-route branch while keeping main docs as reference |
 
 The portable core of each skill is its `SKILL.md`, `scripts/`, and optional `assets/`. `agents/openai.yaml` provides optional OpenAI/Codex UI metadata and may be ignored by other agents.
 
@@ -27,6 +28,7 @@ The portable core of each skill is its `SKILL.md`, `scripts/`, and optional `ass
 - Provides optional task/experiment cards for long-running or cross-window research work.
 - Supports safe preview, conflict detection, missing-file initialization, explicit overwrite, and validation.
 - Audits old root docs before refactoring and reports missing files, overlong docs, duplicate responsibilities, missing conversation-capture rules, absolute paths, placeholders, and evidence-boundary risks.
+- Plans branch-aware docs for custom research-route branches without switching branches or rewriting docs until explicitly approved.
 
 ## Generated files
 
@@ -74,13 +76,18 @@ git clone https://github.com/Tinimh/research-project-docs-agent-skill.git \
 
 For Claude Code, Trae, or another agent, verify the skill discovery directory supported by the installed version. If automatic discovery is unavailable, explicitly ask the agent to read this repository's `SKILL.md` and follow it. Do not assume every agent automatically loads `AGENTS.md`.
 
-To install the companion refactor skill into Codex after cloning this repository:
+To install companion skills into Codex after cloning this repository:
 
 ```powershell
 Copy-Item `
   -Recurse `
   -LiteralPath .\skills\refactor-research-project-docs `
   -Destination "$env:USERPROFILE\.codex\skills\refactor-research-project-docs"
+
+Copy-Item `
+  -Recurse `
+  -LiteralPath .\skills\migrate-research-docs-branch `
+  -Destination "$env:USERPROFILE\.codex\skills\migrate-research-docs-branch"
 ```
 
 ## Usage with an agent
@@ -95,6 +102,12 @@ Refactor existing old docs:
 
 ```text
 Use $refactor-research-project-docs to audit this existing research repository docs, propose a safe refactor plan, then apply approved documentation-only changes.
+```
+
+Plan branch-aware docs for a custom research-route branch:
+
+```text
+Use $migrate-research-docs-branch to plan branch-aware docs for my custom research-route branch: preserve source docs as reference, keep branch-local docs current, and do not change state before approval.
 ```
 
 The agent should:
@@ -147,6 +160,15 @@ python skills/refactor-research-project-docs/scripts/audit_research_docs.py `
   --project-root <PROJECT_ROOT>
 ```
 
+Plan branch-aware route docs without writing:
+
+```powershell
+python skills/migrate-research-docs-branch/scripts/plan_docs_branch_migration.py `
+  --project-root <PROJECT_ROOT> `
+  --new-branch <CUSTOM_RESEARCH_BRANCH> `
+  --reference-dir docs/branch_reference/main
+```
+
 Existing-file policies:
 
 - `error` — default; abort before writing if any managed file already exists.
@@ -164,6 +186,10 @@ skills/refactor-research-project-docs/
   SKILL.md
   agents/openai.yaml
   scripts/audit_research_docs.py
+skills/migrate-research-docs-branch/
+  SKILL.md
+  agents/openai.yaml
+  scripts/plan_docs_branch_migration.py
 ```
 
 ## Validation
@@ -175,7 +201,8 @@ The release is checked with the skill validator and a temporary-project smoke te
 - YAML parsing of `docs/SCOPE.yml`;
 - post-initialization question output;
 - default conflict protection;
-- read-only old-docs audit for the companion refactor skill.
+- read-only old-docs audit for the companion refactor skill;
+- read-only branch-aware route-doc planning for the companion branch-migration skill.
 
 ## License
 
